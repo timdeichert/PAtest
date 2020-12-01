@@ -76,9 +76,10 @@ if ('geolocation' in navigator) {
 
 
   function takePhoto() {
+    console.log('terst')
     if (!('ImageCapture' in window)) {
       alert('ImageCapture is not available');
-      console.log('terst')
+      
       return;
     } 
     var theImageCapturer = new ImageCapture(theStream.getVideoTracks()[0]);
