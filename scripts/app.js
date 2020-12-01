@@ -75,13 +75,19 @@ if ('geolocation' in navigator) {
   target.innerText = 'Geolocation API not supported.'; }
 
 
-  function takePhoto() {
-    console.log('terst')
+function takePhoto() {
+   console.log('terst')
     if (!('ImageCapture' in window)) {
       alert('ImageCapture is not available');
       
       return;
     } 
+
+    if (!theStream) {
+      alert('Grab the video stream first!');
+      return;
+    }
+    
     var theImageCapturer = new ImageCapture(theStream.getVideoTracks()[0]);
 
     theImageCapturer.takePhoto()
