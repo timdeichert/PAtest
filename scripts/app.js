@@ -78,12 +78,14 @@ if ('geolocation' in navigator) {
   function takePhoto() {
     if (!('ImageCapture' in window)) {
       alert('ImageCapture is not available');
+      console.log('terst')
       return;
     } 
     var theImageCapturer = new ImageCapture(theStream.getVideoTracks()[0]);
 
     theImageCapturer.takePhoto()
       .then(blob => {
+        console.log('terst222')
         var theImageTag = document.getElementById("imageTag");
         theImageTag.src = URL.createObjectURL(blob);
       })
