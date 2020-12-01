@@ -57,14 +57,14 @@ function takePhoto() {
     .then(blob => {
      
       localStorage.setItem("myImage", blob)
+      console.log("got image")
     })
     .catch(err => alert('Error: ' + err));}
+
 
     
     function getImageFromCache(){
       var blob = localStorage.getItem("myImage")
       console.log("blob")
       var theImageTag = document.getElementById("imageTag");
-      theImageTag.src = URL.createObjectURL(blob);
-
-    }
+      theImageTag.src = URL.createObjectURL(blob); }
