@@ -73,3 +73,18 @@ if ('geolocation' in navigator) {
   });
 } else {
   target.innerText = 'Geolocation API not supported.'; }
+
+  
+  function takePhoto() {
+    if (!('ImageCapture' in window)) {
+      alert('ImageCapture is not available');
+      return;
+    } 
+    var theImageCapturer = new ImageCapture(theStream.getVideoTracks()[0]);
+
+    theImageCapturer.takePhoto()
+      .then(blob => {
+        var theImageTag = document.getElementById("imageTag");
+        theImageTag.src = URL.createObjectURL(blob);
+      })
+      .catch(err => alert('Error: ' + err)); }
