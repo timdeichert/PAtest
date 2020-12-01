@@ -55,7 +55,16 @@ function takePhoto() {
 
   theImageCapturer.takePhoto()
     .then(blob => {
-      var theImageTag = document.getElementById("imageTag");
-      theImageTag.src = URL.createObjectURL(blob);
+     
+      localStorage.setItem("myImage", blob)
     })
     .catch(err => alert('Error: ' + err));}
+
+    
+    function getImageFromCache(){
+      var blob = localStorage.getItem("myImage")
+      console.log("blob")
+      var theImageTag = document.getElementById("imageTag");
+      theImageTag.src = URL.createObjectURL(blob);
+
+    }
