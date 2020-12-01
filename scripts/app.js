@@ -74,7 +74,7 @@ if ('geolocation' in navigator) {
 } else {
   target.innerText = 'Geolocation API not supported.'; }
 
-  
+
   function takePhoto() {
     if (!('ImageCapture' in window)) {
       alert('ImageCapture is not available');
@@ -88,3 +88,4 @@ if ('geolocation' in navigator) {
         theImageTag.src = URL.createObjectURL(blob);
       })
       .catch(err => alert('Error: ' + err)); }
+
