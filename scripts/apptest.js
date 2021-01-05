@@ -4,67 +4,46 @@ if ('serviceWorker' in navigator) {
       console.log('SW registered');
     });
 }
-function getUserMedia(options, successCallback, failureCallback) {
-  var api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia || navigator.msGetUserMedia;
-  if (api) {
-    return api.bind(navigator)(options, successCallback, failureCallback);
+
+function startDrag(e) {
+  this.ontouchmove = this.onmspointermove = moveDrag;
+
+  this.ontouchend = this.onmspointerup = function () {
+    this.ontouchmove = this.onmspointermove = null;
+    this.ontouchend = this.onmspointerup = null;
   }
-}
 
-var theStream;
+  var pos = [this.offsetLeft, this.offsetTop];
+  var that = this;
+  var origin = getCoors(e);
 
-function getStream() {
-  if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
-    !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
-    alert('User Media API not supported.');
-    return;
+  function moveDrag(e) {
+    var currentPos = getCoors(e);
+    var deltaX = currentPos[0] - origin[0];
+    var deltaY = currentPos[1] - origin[1];
+    this.style.left = (pos[0] + deltaX) + 'px';
+    this.style.top = (pos[1] + deltaY) + 'px';
+    return false; // cancels scrolling
   }
-  
-  var constraints = {
-    video: true
-  };
 
-  getUserMedia(constraints, function (stream) {
-    var mediaControl = document.querySelector('video');
-    if ('srcObject' in mediaControl) {
-      mediaControl.srcObject = stream;
-    } else if (navigator.mozGetUserMedia) {
-      mediaControl.mozSrcObject = stream;
+  function getCoors(e) {
+    var coors = [];
+    if (e.targetTouches && e.targetTouches.length) {
+      var thisTouch = e.targetTouches[0];
+      coors[0] = thisTouch.clientX;
+      coors[1] = thisTouch.clientY;
     } else {
-      mediaControl.src = (window.URL || window.webkitURL).createObjectURL(stream);
+      coors[0] = e.clientX;
+      coors[1] = e.clientY;
     }
-    theStream = stream;
-  }, function (err) {
-    alert('Error: ' + err);
-  });
+    return coors;
+  }
 }
 
-function takePhoto() {
-  if (!('ImageCapture' in window)) {
-    alert('ImageCapture is not available');
-    return;
-  }
-  
-  if (!theStream) {
-    alert('Grab the video stream first!');
-    return;
-  }
-  
-  var theImageCapturer = new ImageCapture(theStream.getVideoTracks()[0]);
+var elements = document.querySelectorAll('.test-element');
+[].forEach.call(elements, function (element) {
+  element.ontouchstart = element.onmspointerdown = startDrag;
+});
 
-  theImageCapturer.takePhoto()
-    .then(blob => {
-     
-      localStorage.setItem("myImage", blob)
-      console.log("got image")
-    })
-    .catch(err => alert('Error: ' + err));}
-
-
-    
-    function getImageFromCache(){
-      var blob = localStorage.getItem("myImage")
-      console.log("blob")
-      var theImageTag = document.getElementById("imageTag");
-      theImageTag.src = URL.createObjectURL(blob); }
+document.ongesturechange = function () {
+  return false;}
