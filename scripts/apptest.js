@@ -23,10 +23,5 @@ if (info) {
   }
   updateNetworkInfo(info);}
 
-  function vibrateSimple() {
-    navigator.vibrate(200);
-  }
   
-  function vibratePattern() {
-    navigator.vibrate([100, 200, 200, 200, 500]);
-  }
+  document.getElementById('result').innerHTML = navigator.deviceMemory 
