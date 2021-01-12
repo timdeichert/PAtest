@@ -23,5 +23,5 @@ if (info) {
   }
   updateNetworkInfo(info);}
 
-  
-  document.getElementById('result').innerHTML = navigator.deviceMemory || 'unknown'
+
+  document.getElementById('result').innerHTML = navigator.deviceMemory 
